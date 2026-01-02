@@ -20,5 +20,7 @@ const ART: &str = include_str!("assets/art.txt");
 
 fn main() {
     println!("{}", ART);
-    println!("Permguard TrustPlane v{}", version());
+    println!("");
+    println!("The official Permguard TrustPlane v{}", version());
+    println!("Copyright © 2025 Nitro Agility S.r.l.");
 }
