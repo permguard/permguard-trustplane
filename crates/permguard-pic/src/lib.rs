@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
- pub mod cat {
-    pub use permguard_pic::*;
-}
+//! CAT (Causal Authority Transition) for PIC Protocol
 
- pub fn version() -> &'static str {
+pub fn cat_version() -> &'static str {
     env!("CARGO_PKG_VERSION")
 }

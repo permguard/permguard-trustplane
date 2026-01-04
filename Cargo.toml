@@ -1,10 +1,10 @@
 [package]
 name = "permguard-trustplane"
 edition = "2024"
-version = "0.0.0"
+version.workspace = true
 description = "Permguard PIC-native Trust Plane — Proof of Continuity for authority chains"
-license = "Apache-2.0"
-repository = "https://github.com/permguard/permguard-trustplane"
+license.workspace = true
+repository.workspace = true
 documentation = "https://docs.rs/permguard-trustplane"
 keywords = ["authorization", "security", "distributed-systems"]
 categories = ["authentication", "cryptography"]
@@ -20,8 +20,61 @@ path = "src/main.rs"
 default = []
 testing = []
 
+[workspace]
+resolver = "2"
+members = ["crates/*"]
+
+[workspace.package]
+edition = "2024"
+version = "0.0.0"
+license = "Apache-2.0"
+repository = "https://github.com/permguard/permguard-trustplane"
+
+[workspace.dependencies]
+# Async runtime
+tokio = { version = "1", features = ["rt-multi-thread", "net", "signal", "macros", "sync"] }
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Crypto
+ed25519-dalek = { version = "2", features = ["rand_core"] }
+rand = "0.8"
+base64 = "0.22"
+
+# Time
+chrono = { version = "0.4", default-features = false, features = ["serde", "clock"] }
+
+# Error handling
+thiserror = "2"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+
+# CLI
+clap = { version = "4", features = ["derive", "env"] }
+
+# SSI - Decentralized Identity (optional)
+ssi = { version = "0.12", features = ["ed25519", "w3c"] }
+
+# OAuth (optional)
+oauth2 = "4.4"
+
+# PIC
+permguard-pic = { path = "crates/permguard-pic" }
+pic-protocol = { version = "0.1.6", features = ["full"] }
+
 [dependencies]
-tokio = { version = "1", features = ["full"] }
+tokio.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+clap.workspace = true
+permguard-pic.workspace = true
 
 [dev-dependencies]
-tokio-test = "0.2"
+tokio-test = "0.4"
