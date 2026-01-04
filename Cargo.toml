@@ -63,8 +63,8 @@ ssi = { version = "0.12", features = ["ed25519", "w3c"] }
 oauth2 = "4.4"
 
 # PIC
-permguard-pic = { path = "crates/permguard-pic" }
 pic-protocol = { version = "0.1.6", features = ["full"] }
+permguard-pic = { path = "crates/permguard-pic" }
 
 [dependencies]
 tokio.workspace = true
