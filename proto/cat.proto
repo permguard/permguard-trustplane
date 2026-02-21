@@ -1,0 +1,16 @@
+syntax = "proto3";
+package permguard.trustplane.cat.v1;
+
+service CatService {
+    // Transition: PCA_{n} → PCA_{n+1}
+    rpc Transition(TransitionRequest) returns (TransitionResponse);
+}
+
+message TransitionRequest {
+    bytes pca = 1;  // Current PCA (CBOR)
+}
+
+message TransitionResponse {
+    bytes pca = 1;      // New PCA (CBOR)
+    string error = 2;   // Error message if failed (empty on success)
+}

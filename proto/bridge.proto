@@ -1,0 +1,17 @@
+syntax = "proto3";
+package permguard.trustplane.bridge.v1;
+
+service BridgeService {
+    // Exchange external credential for initial PCA0
+    rpc Exchange(ExchangeRequest) returns (ExchangeResponse);
+}
+
+message ExchangeRequest {
+    string bridge_id = 1;     // Bridge configuration ID to use
+    bytes credential = 2;     // Raw credential (JWT, etc.)
+}
+
+message ExchangeResponse {
+    bytes pca = 1;      // Initial PCA0 (CBOR)
+    string error = 2;   // Error message if failed (empty on success)
+}

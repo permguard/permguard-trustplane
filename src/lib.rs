@@ -14,10 +14,41 @@
  * limitations under the License.
  */
 
- pub mod cat {
+ //! Permguard Trust Plane - PIC-Native Causal Authority Transition Engine.
+
+// PIC types re-export
+pub mod pic {
     pub use permguard_pic::*;
 }
 
- pub fn version() -> &'static str {
+// Core modules
+pub mod cli;
+pub mod config;
+pub mod error;
+pub mod handlers;
+
+// Credentials management
+pub mod credentials;
+
+// Services
+pub mod bridge;
+pub mod bridge_admin;
+pub mod cat;
+
+// Server
+pub mod server;
+
+mod proto;
+
+
+// Public API
+pub use cli::Cli;
+pub use config::Config;
+pub use error::{Error, Result};
+pub use credentials::{TrustPlaneCredentials, CredentialProvider, CredentialsManager};
+pub use server::Server;
+
+/// Returns the crate version.
+pub fn version() -> &'static str {
     env!("CARGO_PKG_VERSION")
 }

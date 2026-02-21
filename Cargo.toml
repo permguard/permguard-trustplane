@@ -2,11 +2,11 @@
 name = "permguard-trustplane"
 edition = "2024"
 version.workspace = true
-description = "Permguard PIC-native Trust Plane — Proof of Continuity for authority chains"
+description = "Permguard PIC-native Trust Plane — Causal Authority Transition Engine"
 license.workspace = true
 repository.workspace = true
 documentation = "https://docs.rs/permguard-trustplane"
-keywords = ["authorization", "security", "distributed-systems"]
+keywords = ["authorization", "security", "distributed-systems", "pic", "did"]
 categories = ["authentication", "cryptography"]
 
 [lib]
@@ -32,7 +32,7 @@ repository = "https://github.com/permguard/permguard-trustplane"
 
 [workspace.dependencies]
 # Async runtime
-tokio = { version = "1", features = ["rt-multi-thread", "net", "signal", "macros", "sync"] }
+tokio = { version = "1", features = ["rt-multi-thread", "net", "signal", "macros", "sync", "time"] }
 
 # Serialization
 serde = { version = "1", features = ["derive"] }
@@ -56,17 +56,34 @@ tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
 # CLI
 clap = { version = "4", features = ["derive", "env"] }
 
+# HTTP server
+axum = "0.7"
+tower = "0.4"
+tower-http = { version = "0.5", features = ["trace"] }
+
+# gRPC
+tonic = "0.12"
+tonic-reflection = "0.12"
+prost = "0.13"
+
+# Utilities
+uuid = { version = "1", features = ["v4"] }
+async-trait = "0.1"
+
 # SSI - Decentralized Identity (optional)
 ssi = { version = "0.12", features = ["ed25519", "w3c"] }
 
 # OAuth (optional)
 oauth2 = "4.4"
 
-# PIC
+# PIC Protocol
 pic-protocol = { version = "0.1.6", features = ["full"] }
+
+# Internal crates
 permguard-pic = { path = "crates/permguard-pic" }
 
 [dependencies]
+# Core
 tokio.workspace = true
 serde.workspace = true
 serde_json.workspace = true
@@ -74,7 +91,32 @@ thiserror.workspace = true
 tracing.workspace = true
 tracing-subscriber.workspace = true
 clap.workspace = true
+
+# HTTP/gRPC
+axum.workspace = true
+tower.workspace = true
+tower-http.workspace = true
+tonic.workspace = true
+tonic-reflection.workspace = true
+prost.workspace = true
+
+# Crypto
+ed25519-dalek.workspace = true
+rand.workspace = true
+base64.workspace = true
+
+# Time
+chrono.workspace = true
+
+# Utilities
+uuid.workspace = true
+async-trait.workspace = true
+
+# PIC
 permguard-pic.workspace = true
+
+[build-dependencies]
+tonic-build = "0.12"
 
 [dev-dependencies]
 tokio-test = "0.4"

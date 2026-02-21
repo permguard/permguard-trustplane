@@ -1,0 +1,97 @@
+syntax = "proto3";
+package permguard.trustplane.bridge_admin.v1;
+
+service BridgeAdminService {
+    // List all configured bridges
+    rpc ListBridges(ListBridgesRequest) returns (ListBridgesResponse);
+    
+    // Get a specific bridge configuration
+    rpc GetBridge(GetBridgeRequest) returns (GetBridgeResponse);
+    
+    // Add a new bridge configuration
+    rpc AddBridge(AddBridgeRequest) returns (AddBridgeResponse);
+    
+    // Update an existing bridge configuration
+    rpc UpdateBridge(UpdateBridgeRequest) returns (UpdateBridgeResponse);
+    
+    // Remove a bridge configuration
+    rpc RemoveBridge(RemoveBridgeRequest) returns (RemoveBridgeResponse);
+}
+
+// Bridge Types
+enum BridgeType {
+    BRIDGE_TYPE_UNSPECIFIED = 0;
+    BRIDGE_TYPE_JWT = 1;
+    BRIDGE_TYPE_SPIFFE = 2;  // Future
+    BRIDGE_TYPE_VC = 3;      // Future
+}
+
+message BridgeConfig {
+    string id = 1;
+    BridgeType type = 2;
+    bool enabled = 3;
+    
+    oneof config {
+        JwtBridgeConfig jwt = 10;
+    }
+}
+
+message JwtBridgeConfig {
+    string wellknown_url = 1;
+    string issuer = 2;
+    repeated string audiences = 3;
+    MappingConfig mapping = 4;
+}
+
+message MappingConfig {
+    string subject_claim = 1;
+    string organization_claim = 2;
+    map<string, string> custom = 3;
+}
+
+// List
+message ListBridgesRequest {}
+
+message ListBridgesResponse {
+    repeated BridgeConfig bridges = 1;
+}
+
+// Get
+message GetBridgeRequest {
+    string id = 1;
+}
+
+message GetBridgeResponse {
+    BridgeConfig bridge = 1;
+    string error = 2;
+}
+
+// Add
+message AddBridgeRequest {
+    BridgeConfig bridge = 1;
+}
+
+message AddBridgeResponse {
+    string id = 1;
+    string error = 2;
+}
+
+// Update
+message UpdateBridgeRequest {
+    BridgeConfig bridge = 1;
+}
+
+message UpdateBridgeResponse {
+    bool success = 1;
+    string error = 2;
+}
+
+// Remove
+message RemoveBridgeRequest {
+    string id = 1;
+}
+
+message RemoveBridgeResponse {
+    bool success = 1;
+    string error = 2;
+}
